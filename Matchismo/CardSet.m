@@ -2,7 +2,7 @@
 
 @implementation CardSet
 
-- (instancetype)initWithSetCount:(NSInteger) i
+- (instancetype)initWithMaximumSelectableCards:(NSInteger) i
 {
 	self.currentlyChosenCards = [[NSMutableArray alloc] init];
 	self.maximumSelectableCards = i;
@@ -16,7 +16,8 @@
 
 - (void) addCard:(Card *)card removing:(Card *)removing
 {
-	if ([self.currentlyChosenCards count] >= self.maximumSelectableCards) {
+	if ([self.currentlyChosenCards count] >= self.maximumSelectableCards)
+	{
 		if(removing)
 		{
 			[self.currentlyChosenCards removeObject:removing];

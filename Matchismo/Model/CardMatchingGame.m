@@ -16,35 +16,19 @@
 
 - (NSInteger)match
 {
-#warning THIS IS FOR TESTING -- DO NOT COMMIT
-	if (self.potentialMatches.currentlyChosenCards.count == self.potentialMatches.maximumSelectableCards) {
-		for (Card *c in self.potentialMatches.currentlyChosenCards) {
-			c.matched = YES;
-		}
-		[self.potentialMatches.currentlyChosenCards removeAllObjects];
-		return 1;
-	}
-#pragma mark - end of warning
 
 	if (self.potentialMatches.currentlyChosenCards.count < self.potentialMatches.maximumSelectableCards) {
 		return 0;
 	} else {
-		NSInteger score = 0;
-		for (Card *cardA in self.potentialMatches.currentlyChosenCards)
-		{
-			for (Card *cardB in self.potentialMatches.currentlyChosenCards)
-			{
-				if ([cardA isEqual:cardB]) {
-					continue;
-				}
-				score += [cardA matchesCard:cardB];
+		Card *first = self.potentialMatches.currentlyChosenCards.firstObject;
+		NSInteger score = [first match:self.potentialMatches.currentlyChosenCards];
+		if (score > 0) {
+			for (Card *c in self.potentialMatches.currentlyChosenCards) {
+				c.matched = YES;
 			}
+			[self.potentialMatches.currentlyChosenCards removeAllObjects];
 		}
-		for (Card *c in self.potentialMatches.currentlyChosenCards) {
-			c.matched = YES;
-		}
-		[self.potentialMatches.currentlyChosenCards removeAllObjects];
-		return score - [self.potentialMatches.currentlyChosenCards count];
+		return score;
 	}
 }
 
@@ -58,7 +42,7 @@
                          usingDeck:(Deck *)deck
 {
     self = [super init];
-	self.potentialMatches = [[CardSet alloc] initWithSetCount:2];
+	self.potentialMatches = [[CardSet alloc] initWithMaximumSelectableCards:3];
 	if(self)
     {
         for (int i=0; i < count; i++) {
@@ -110,7 +94,6 @@
 		GameTurn *turn = [GameTurn new];
 		turn.didMatch = NO;
 		turn.resultDescription = [self.potentialMatches print];
-		
 		turn.matchScore = self.potentialMatches.maximumSelectableCards-1;
 		[self.history addObject:turn];
 	}

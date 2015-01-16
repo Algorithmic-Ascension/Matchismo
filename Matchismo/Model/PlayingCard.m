@@ -6,21 +6,23 @@
 
 - (int)match:(NSArray *)otherCards
 {
-    int score = 0;
-    
-    if ([otherCards count] == 1)
-    {
-        PlayingCard *otherCard = [otherCards firstObject];
-        if (otherCard.rank ==self.rank)
-        {
-            score = 4;
-        }
-        else if ([otherCard.suit isEqualToString:self.suit])
-        {
-            score = 1;
-        }
-    }
-    
+	int score = 0;
+	
+	for (PlayingCard *card in otherCards) {
+		if ([card isEqual:self]) {
+			continue;
+		}
+		
+		if (card.rank == self.rank)
+		{
+			score += 4;
+		}
+		else if ([card.suit isEqualToString:self.suit])
+		{
+			score += 2;
+		}
+	}
+	
     return score;
 }
 

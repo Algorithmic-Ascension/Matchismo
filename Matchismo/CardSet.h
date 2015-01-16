@@ -6,7 +6,7 @@
 @property (strong, nonatomic) NSMutableArray *currentlyChosenCards;
 @property (nonatomic) NSInteger maximumSelectableCards;
 
-- (instancetype)initWithSetCount:(NSInteger)i;
+- (instancetype)initWithMaximumSelectableCards:(NSInteger)i;
 - (void) addCard:(Card *)card removing:(Card *)removing;
 - (void) addCard:(Card *)card;
 - (NSString *) print;

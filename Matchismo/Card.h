@@ -3,5 +3,5 @@
 @interface Card : NSObject
 @property (strong, nonatomic) NSString *contents;
 @property (nonatomic, getter=isMatched) BOOL matched;
-- (int)matchesCard:(Card *)card;
+- (int)match:(NSArray *)otherCards;
 @end
