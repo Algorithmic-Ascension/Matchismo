@@ -2,6 +2,7 @@
 
 @interface Card()
 @end
+
 @implementation Card
 
 - (int)match:(NSArray *)otherCards {
@@ -12,4 +13,5 @@
 	}
 	return 0;
 }
+
 @end

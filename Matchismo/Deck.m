@@ -1,8 +1,12 @@
 #import "Deck.h"
 #import "PlayingCardDeck.h"
+
 @interface Deck()
+
 @property (strong, nonatomic) NSMutableArray *cards;
+
 @end
+
 
 @implementation Deck
 
@@ -31,4 +35,5 @@
     }
     return randomCard;
 }
+
 @end

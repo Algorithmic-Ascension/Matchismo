@@ -2,10 +2,14 @@
 #import "GameTurn.h"
 #import "CardSet.h"
 #import "PlayingCard.h"
+#include "config.h"
+
 
 @interface CardMatchingGame()
+
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSMutableArray *cards;
+
 @end
 
 @implementation CardMatchingGame
@@ -35,10 +39,13 @@
     return _cards;
 }
 
+
+#warning TODO: put in config file, list of constants, leaving out static keyword did not work, try #define maybe?
+static const int MAXIMUM_SELECTABLE_CARDS = 3;
 - (instancetype) initWithCardCount:(NSUInteger) count
                          usingDeck:(Deck *)deck {
     self = [super init];
-	self.potentialMatches = [[CardSet alloc] initWithMaximumSelectableCards:3];
+	self.potentialMatches = [[CardSet alloc] initWithMaximumSelectableCards:MAXIMUM_SELECTABLE_CARDS];
 	if(self) {
         for (int i=0; i < count; i++) {
             Card *card = [deck drawRandomCard];
@@ -88,7 +95,7 @@
 	self.score -= self.potentialMatches.maximumSelectableCards-1;
 }
 
-- (Card *) cardAtIndex: (NSUInteger)index {
+- (Card *) cardAtIndex:(NSUInteger)index {
     return (index < [self.cards count]) ? self.cards[index] : nil;
 }
 
@@ -98,4 +105,5 @@
 	}
 	return _history;
 }
+
 @end

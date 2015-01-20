@@ -1,5 +1,4 @@
 #import "PlayingCard.h"
-#import "NSArray+Combination.h"
 
 @implementation PlayingCard
 
@@ -50,7 +49,7 @@
 }
 
 + (NSUInteger)maxRank {
-	return [[self rankStrings] count]-1;
+	return [[self rankStrings] count] - 1;
 }
 
 - (void)setRank:(NSUInteger)rank {

@@ -12,7 +12,7 @@
 - (instancetype) initWithCardCount:(NSUInteger) count
                          usingDeck:(Deck *)deck;
 - (void) chooseCardAtIndex:(NSUInteger)index;
-- (Card *) cardAtIndex: (NSUInteger)index;
+- (Card *) cardAtIndex:(NSUInteger)index;
 - (NSInteger)match;
 - (BOOL) isInPotentialMatches:(Card *)card;
 

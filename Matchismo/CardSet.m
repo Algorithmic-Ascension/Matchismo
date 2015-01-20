@@ -38,7 +38,7 @@
 - (NSString *) print {
 	NSString *s = @"";
 	for ( Card *c in self.currentlyChosenCards ) {
-		s = [s stringByAppendingString: c.contents];
+		s = [s stringByAppendingString:c.contents];
 	}
 	return s;
 }

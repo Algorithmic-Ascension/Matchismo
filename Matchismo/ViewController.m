@@ -17,8 +17,8 @@
 
 - (CardMatchingGame *) game {
     if(!_game) {
-        _game = [[CardMatchingGame alloc] initWithCardCount: [self.cardButtons count]
-                                                  usingDeck: [self createDeck]];
+        _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
+                                                  usingDeck:[self createDeck]];
     }
     return _game;
 }
@@ -31,15 +31,15 @@
     NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:chosenButtonIndex];
     [self updateUI];
-	GameTurn *lastTurn = [self.game.history lastObject];
-	NSString *match = [NSString stringWithFormat: @"Matched %@ for %li points.", lastTurn.resultDescription, (long)lastTurn.matchScore] ;
-	NSString *mismatch = [NSString stringWithFormat: @"%@ don't match! %li point penalty!", lastTurn.resultDescription, (long)lastTurn.matchScore];
-	[self announcementBox:(lastTurn.didMatch ? match: mismatch)];
+	GameTurn *lastTurn = self.game.history.lastObject;
+	NSString *match = [NSString stringWithFormat:@"Matched %@ for %li points.", lastTurn.resultDescription, (long)lastTurn.matchScore] ;
+	NSString *mismatch = [NSString stringWithFormat:@"%@ don't match! %li point penalty!", lastTurn.resultDescription, (long)lastTurn.matchScore];
+	[self announcementBox:(lastTurn.didMatch ? match : mismatch)];
 }
 
 - (IBAction)resetLabelButton:(UIButton *)sender {
-    self.game = [[CardMatchingGame alloc] initWithCardCount: [self.cardButtons count]
-                                                  usingDeck: [self createDeck]];
+    self.game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
+                                                  usingDeck:[self createDeck]];
     [self updateUI];
 }
 
@@ -51,19 +51,23 @@
     for (UIButton *cardButton in self.cardButtons) {
         NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardButtonIndex];
-        [cardButton setTitle: [self titleForCard:card] forState:UIControlStateNormal];
-        [cardButton setBackgroundImage: [self backgroungImageForCard:card] forState:UIControlStateNormal];
+        [cardButton setTitle: [self titleForCard:card]
+                    forState:UIControlStateNormal];
+        [cardButton setBackgroundImage: [self backgroungImageForCard:card]
+                              forState:UIControlStateNormal];
         cardButton.enabled = !card.isMatched;
         self.scoreLabel.text = [NSString stringWithFormat:@"Score:%d", (int)self.game.score];
     }
 }
 
 - (NSString *) titleForCard:(Card *) card {
-    return [self.game isInPotentialMatches:card ] || card.isMatched ? card.contents : @"";
+    BOOL isFaceup = card.isMatched || [self.game isInPotentialMatches:card];
+    return isFaceup ? card.contents : @"";
 }
 
 - (UIImage *) backgroungImageForCard:(Card *) card {
-    return [UIImage imageNamed: [self.game isInPotentialMatches:card ] || card.isMatched ? @"cardfront":@"cardback"];
+    BOOL isFaceup = card.isMatched || [self.game isInPotentialMatches:card];
+    return [UIImage imageNamed: isFaceup ? @"cardfront":@"cardback"];
 }
 
 @end
