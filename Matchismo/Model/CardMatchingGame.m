@@ -1,6 +1,7 @@
-#import "CardMAtchingGame.h"
+#import "CardMatchingGame.h"
 #import "GameTurn.h"
 #import "CardSet.h"
+#import "PlayingCard.h"
 
 @interface CardMatchingGame()
 @property (nonatomic, readwrite) NSInteger score;
@@ -9,19 +10,16 @@
 
 @implementation CardMatchingGame
 
-- (BOOL) isInPotentialMatches:(Card *)card
-{
+- (BOOL) isInPotentialMatches:(Card *)card {
 	return [self.potentialMatches.currentlyChosenCards containsObject:card];
 }
 
-- (NSInteger)match
-{
+- (NSInteger)match {
 
 	if (self.potentialMatches.currentlyChosenCards.count < self.potentialMatches.maximumSelectableCards) {
 		return 0;
 	} else {
-		Card *first = self.potentialMatches.currentlyChosenCards.firstObject;
-		NSInteger score = [first match:self.potentialMatches.currentlyChosenCards];
+		NSInteger score = [PlayingCard match:self.potentialMatches.currentlyChosenCards];
 		if (score > 0) {
 			for (Card *c in self.potentialMatches.currentlyChosenCards) {
 				c.matched = YES;
@@ -32,27 +30,22 @@
 	}
 }
 
-- (NSMutableArray *)cards
-{
+- (NSMutableArray *)cards {
     if(!_cards) _cards = [[NSMutableArray alloc] init];
     return _cards;
 }
 
 - (instancetype) initWithCardCount:(NSUInteger) count
-                         usingDeck:(Deck *)deck
-{
+                         usingDeck:(Deck *)deck {
     self = [super init];
 	self.potentialMatches = [[CardSet alloc] initWithMaximumSelectableCards:3];
-	if(self)
-    {
+	if(self) {
         for (int i=0; i < count; i++) {
             Card *card = [deck drawRandomCard];
-            if (card)
-            {
+            if (card) {
                 [self.cards addObject:card];
             }
-            else
-            {
+            else {
                 self = nil;
                 break;
             }
@@ -63,8 +56,7 @@
 }
 
 
-- (void) chooseCardAtIndex:(NSUInteger)index
-{
+- (void) chooseCardAtIndex:(NSUInteger)index {
     Card *card = [self cardAtIndex:index];
 	
 	//match and score
@@ -72,12 +64,10 @@
 	[self.potentialMatches addCard:card];
 	
 	NSInteger matchScore = [self match];
-	if (matchScore)
-	{
+	if (matchScore) {
 		NSInteger adjustedScore = matchScore * matchScore * self.potentialMatches.maximumSelectableCards;
 		self.score += adjustedScore;
-		for ( Card *c in self.potentialMatches.currentlyChosenCards )
-		{
+		for ( Card *c in self.potentialMatches.currentlyChosenCards ) {
 			c.matched = YES;
 		}
 		GameTurn *turn = [GameTurn new];
@@ -85,9 +75,7 @@
 		turn.resultDescription = [self.potentialMatches print];
 		turn.matchScore = adjustedScore;
 		[self.history addObject:turn];
-	}
-	else
-	{
+	} else {
 		self.score -= self.potentialMatches.maximumSelectableCards-1;
 		card.matched = NO;
 		
@@ -100,15 +88,12 @@
 	self.score -= self.potentialMatches.maximumSelectableCards-1;
 }
 
-- (Card *) cardAtIndex: (NSUInteger)index
-{
+- (Card *) cardAtIndex: (NSUInteger)index {
     return (index < [self.cards count]) ? self.cards[index] : nil;
 }
 
-- (NSMutableArray *)history
-{
-	if (!_history)
-	{
+- (NSMutableArray *)history {
+	if (!_history) {
 		_history = [NSMutableArray array];
 	}
 	return _history;

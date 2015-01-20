@@ -7,5 +7,6 @@
 
 + (NSArray *)validSuits;
 + (NSUInteger)maxRank;
++ (int)match:(NSArray *)cards;
 
 @end

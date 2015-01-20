@@ -4,11 +4,9 @@
 @end
 @implementation Card
 
-- (int)match:(NSArray *)otherCards
-{
+- (int)match:(NSArray *)otherCards {
 	for (Card *card in otherCards ) {
-		if([self.contents isEqualToString:card.contents])
-		{
+		if([self.contents isEqualToString:card.contents]) {
 			return 1;
 		}
 	}

@@ -15,23 +15,19 @@
 
 @implementation ViewController
 
-- (CardMatchingGame *) game
-{
-    if(!_game)
-    {
+- (CardMatchingGame *) game {
+    if(!_game) {
         _game = [[CardMatchingGame alloc] initWithCardCount: [self.cardButtons count]
                                                   usingDeck: [self createDeck]];
     }
     return _game;
 }
 
-- (Deck *)createDeck
-{
+- (Deck *)createDeck {
     return [[PlayingCardDeck alloc] init];
 }
 
-- (IBAction)touchCardButton:(UIButton *)sender
-{
+- (IBAction)touchCardButton:(UIButton *)sender {
     NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:chosenButtonIndex];
     [self updateUI];
@@ -41,22 +37,18 @@
 	[self announcementBox:(lastTurn.didMatch ? match: mismatch)];
 }
 
-- (IBAction)resetLabelButton:(UIButton *)sender
-{
+- (IBAction)resetLabelButton:(UIButton *)sender {
     self.game = [[CardMatchingGame alloc] initWithCardCount: [self.cardButtons count]
-                                              usingDeck: [self createDeck]];
+                                                  usingDeck: [self createDeck]];
     [self updateUI];
 }
 
-- (void) announcementBox:(NSString *)announcement
-{
+- (void) announcementBox:(NSString *)announcement {
     _announcementBox.text = announcement;
 }
 
-- (void) updateUI
-{
-    for (UIButton *cardButton in self.cardButtons)
-    {
+- (void) updateUI {
+    for (UIButton *cardButton in self.cardButtons) {
         NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardButtonIndex];
         [cardButton setTitle: [self titleForCard:card] forState:UIControlStateNormal];
@@ -66,13 +58,11 @@
     }
 }
 
-- (NSString *) titleForCard:(Card *) card
-{
+- (NSString *) titleForCard:(Card *) card {
     return [self.game isInPotentialMatches:card ] || card.isMatched ? card.contents : @"";
 }
 
-- (UIImage *) backgroungImageForCard:(Card *) card
-{
+- (UIImage *) backgroungImageForCard:(Card *) card {
     return [UIImage imageNamed: [self.game isInPotentialMatches:card ] || card.isMatched ? @"cardfront":@"cardback"];
 }
 

@@ -12,8 +12,7 @@
 
 - (instancetype) initWithDidMatch:(BOOL)didMatch
 				resultDescription:(NSString *)resultDescription
-					   matchScore:(NSInteger)matchScore
-{
+					   matchScore:(NSInteger)matchScore {
 	GameTurn *turn = [GameTurn new];
 	turn.didMatch = didMatch;
 	turn.resultDescription = resultDescription;
